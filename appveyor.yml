@@ -1,19 +1,12 @@
 environment:
   matrix:
-  # node.js
-  - nodejs_version: "0.12"
-  - nodejs_version: "4"
-  - nodejs_version: "6"
-  # io.js
-  - nodejs_version: "3"
-
-platform:
-  - x86
-  - x64
+    - nodejs_version: "6"
+    - nodejs_version: ""
 
 branches:
   only:
     - master
+    - /^greenkeeper\/.*$/
 
 # Fix line endings in Windows. (runs before repo cloning)
 init:
@@ -21,7 +14,7 @@ init:
 
 # Install scripts. (runs after repo cloning)
 install:
-  - ps: Install-Product node $env:nodejs_version $env:platform
+  - ps: Install-Product node $env:nodejs_version
   - npm install
 
 # Post-install test scripts.
@@ -32,7 +25,7 @@ test_script:
 
 # http://help.appveyor.com/discussions/questions/1310-delete-cache
 cache:
-  - node_modules -> .appveyorcachesucks
+  - node_modules -> package.json
 
 # Don't actually build.
 build: off
